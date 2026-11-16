@@ -21,7 +21,7 @@ public class DetectorDeCor extends LinearOpMode{
     @Override
     public void runOpMode(){
 
-        TCS34725Driver sensor = hardwareMap.get(TCS34725Driver.class, "sensor_cor");
+        TCS3472Driver sensor = hardwareMap.get(TCS3472Driver.class, "sensor_cor");
         sensor.setGanho(1);
 
         telemetry.addLine("Pronto! Aperte START");
