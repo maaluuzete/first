@@ -62,6 +62,7 @@ public class Chassi4TeleOp extends LinearOpMode {
 
         motorEsquerdo.setDirection(DcMotor.Direction.REVERSE);
         motorDireito.setDirection(DcMotor.Direction.FORWARD);
+        motorShooter.setDirection(DcMotorSimple.Direction.REVERSE);
         motorEsquerdo.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorDireito.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorShooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
