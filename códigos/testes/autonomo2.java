@@ -38,7 +38,7 @@ public class AutoSimples extends LinearOpMode {
     double VEL_TIRO_1 = 1500;   // largada
     double VEL_TIRO_2 = 1500;   // outro lado da arena (mesma distância)
     double VEL_TIRO_3 = 1450;   // depois da flor (um pouco mais perto)
-    double TEMPO_LANCAR_S = 2.2; // quanto tempo o intake alimenta o shooter (chute por enquanto)
+    double TEMPO_LANCAR_S = 1.0; // quanto tempo o intake alimenta o shooter (chute por enquanto)
 
     String passoAtual = "";     // aparece na telemetria
 
@@ -52,6 +52,7 @@ public class AutoSimples extends LinearOpMode {
 
         motorEsquerdo.setDirection(DcMotorSimple.Direction.REVERSE);  // se andar pra trás, inverta os dois
         motorDireito.setDirection(DcMotorSimple.Direction.FORWARD);
+        intake.setDirection(DcMotorSimple.Direction.REVERSE);
         motorEsquerdo.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorDireito.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -74,16 +75,13 @@ public class AutoSimples extends LinearOpMode {
         lancar(VEL_TIRO_1);
 
         // só tenta o ciclo completo se ainda sobra tempo (senão vai direto estacionar)
-        if (getRuntime() < 6.5) {
+        if (getRuntime()<6.5){
 
             // vai no jardim
             passoAtual = "Indo ao jardim";
-            andar(14.3);          // sai da parede para poder girar
-            girar(-90);           // vira para o lado da flor da parede
+            andar(20);          // sai da parede para poder girar
+            girar(90);           // vira para o lado da flor da parede
             andar(72.4);          // desce passando longe da flor
-            girar(-106);          // aponta pro canto do jardim
-            andar(41.7);
-            girar(-90);           // de frente pros pollens
 
             passoAtual = "Coletando jardim";
             intake.setPower(1.0);
@@ -93,12 +91,13 @@ public class AutoSimples extends LinearOpMode {
 
             // corre pro outro lado e atira
             passoAtual = "Indo pro outro lado";
-            girar(-102);
-            andar(-56.7);         // ré: se afasta da parede
-            girar(90);            // vira para o lado da loading zone
-            andar(127.6);         // sobe até ficar de frente pra célula
-            girar(0);             // de frente pra hive
-            andar(-14.3);         // ré até a posição de tiro
+            girar(0);
+            andar(270);       
+            girar(-90);            // vira para o lado da loading zone
+            andar(120);         // sobe até ficar de frente pra célula
+            girar(180);
+           // girar(0);             // de frente pra hive
+           // andar(-14.3);         // ré até a posição de tiro
 
             passoAtual = "Tiro 2";
             lancar(VEL_TIRO_2);
@@ -107,43 +106,47 @@ public class AutoSimples extends LinearOpMode {
 
                 //ir na flor do outro lado
                 passoAtual = "Indo pra flor";
-                andar(10.6);      // sai da parede
-                girar(47);
-                andar(126.9);
-                girar(90);        // de frente pra flor
+                // andar(10.6);      // sai da parede
+                // girar(47);
+                // andar(126.9);
+                // girar(90);        // de frente pra flor
+                girar(180);
+                andar(50);
+                
 
                 passoAtual = "Coletando flor";
                 intake.setPower(1.0);
-                andarLento(24.2);
+                // andarLento(24.2);
                 sleep(800);
                 intake.setPower(0);
 
                 passoAtual = "Tiro 3";
-                girar(-77);       // mira na célula
+                girar(180);       // mira na célula
                 lancar(VEL_TIRO_3);
 
                 // estacionar
                 passoAtual = "Estacionando";
                 shooter.setVelocity(0);
-                girar(-147);
-                andar(100.0);
+                girar(90);
+                andar(80.0);
 
             }else{
                 // sem tempo para a flor: estaciona direto do 2º tiro
-                passoAtual = "Estacionando";
+                passoAtual = "Estacionando 2°tiro sem tempo";
                 shooter.setVelocity(0);
-                andar(10.6);
-                girar(87);
-                andar(62.0);
+                andar(20.0);
+                girar(90);
+                andar(100.0);
             }
 
         }else{
             // sem tempo para o ciclo: estaciona direto depois do 1º tiro
-            passoAtual = "Estacionando";
+            passoAtual = "Estacionando 1° tiro sem tempo";
             shooter.setVelocity(0);
-            andar(10.6);
-            girar(88);
+            girar(90);
             andar(117.2);
+            girar(90);
+            andar(270);
         }
 
         pararTudo();
@@ -202,7 +205,7 @@ public class AutoSimples extends LinearOpMode {
     void girar(double graus){
         double inicio = getRuntime();
 
-        while (opModeIsActive() && !emergencia() && getRuntime() - inicio < 2.5) {
+        while (opModeIsActive() && !emergencia() && getRuntime() - inicio < 2.5){
             double erro = diferencaAngulo(graus - anguloAtual());
             if (Math.abs(erro) <= 2.0) break;           // chegou (tolerância de 2 graus)
 
