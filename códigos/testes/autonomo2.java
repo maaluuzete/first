@@ -30,7 +30,7 @@ public class AutoSimples extends LinearOpMode {
     IMU imu;
 
     //ajustar chassi
-    double TICKS_POR_VOLTA  = 537.7;
+    double TICKS_POR_VOLTA  = 336;
     double DIAMETRO_RODA_CM = 9.6;
     double TICKS_POR_CM = TICKS_POR_VOLTA / (DIAMETRO_RODA_CM * Math.PI);
 
